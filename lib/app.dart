@@ -1,7 +1,9 @@
 import 'package:amicta/shared/theme.dart';
-import 'package:amicta/ui/pages/home_page.dart';
-import 'package:amicta/ui/pages/onboarding_page.dart';
-import 'package:amicta/ui/pages/sign_in_page.dart';
+import 'package:amicta/ui/pages/customer/bottom_navigation_bar.dart';
+import 'package:amicta/ui/pages/customer/contoh.dart';
+import 'package:amicta/ui/pages/customer/customer_home_page.dart';
+import 'package:amicta/ui/pages/customer/onboarding_page.dart';
+import 'package:amicta/ui/pages/customer/sign_in_page.dart';
 import 'package:amicta/ui/pages/splash_page.dart';
 import 'package:flutter/material.dart';
 
@@ -31,8 +33,9 @@ class App extends StatelessWidget {
       routes: {
         '/' : (context) => const SplashPage(),
         '/onboarding' :(context) => const OnboardingPage(),
-        '/sign-in' :(context) => SignInPage(),
-        '/home' :(context) => const HomePage()
+        '/customer-sign-in' :(context) => SignInPage(),
+        '/customer-bottom-navbar' :(context) => BottomNavBar(),
+        '/customer-home' :(context) => const CustomerHomePage()
       },
     );
   }

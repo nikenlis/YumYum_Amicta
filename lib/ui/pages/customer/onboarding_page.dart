@@ -108,7 +108,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                               title: 'Sign-in',
                               onPressed: () {
                                 Navigator.pushNamedAndRemoveUntil(
-                                    context, '/sign-in', (route) => false);
+                                    context, '/customer-sign-in', (route) => false);
                               },
                             ),
                             const SizedBox(

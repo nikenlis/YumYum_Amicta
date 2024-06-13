@@ -108,7 +108,7 @@ class SignInPage extends StatelessWidget {
                   onPressed: () {
                     if (validate()) {
                       Navigator.pushNamedAndRemoveUntil(
-                        context, '/home', (route) => false);
+                        context, '/customer-bottom-navbar', (route) => false);
                     } else {
                       showCustomSnackbar(context, 'Semua Field Harus diIsi');
                     }
