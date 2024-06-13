@@ -1,7 +1,6 @@
 import 'package:amicta/shared/theme.dart';
 import 'package:amicta/ui/widgets/searchbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class CustomerHomePage extends StatelessWidget {
   const CustomerHomePage({super.key});
@@ -38,7 +37,7 @@ class CustomerHomePage extends StatelessWidget {
                 'Niken Lismiati',
                 style:
                     blackTextStyle.copyWith(fontSize: 20, fontWeight: semiBold),
-              )
+              ),
             ],
           ),
           GestureDetector(
@@ -47,11 +46,13 @@ class CustomerHomePage extends StatelessWidget {
               width: 60,
               height: 60,
               decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                      image: AssetImage('assets/img_profile.png'))),
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: AssetImage('assets/img_profile.png'),
+                ),
+              ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -60,41 +61,20 @@ class CustomerHomePage extends StatelessWidget {
   Widget buildSearchBar(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 30),
-      child: const Row(
-        children: [
-          Expanded(child: CustomSearchBar(search: 'What are you craving?')),
-          SizedBox(width: 12,),
-          Icon(Icons.favorite_outline, size: 25,)
-
-        ],
-      ),
-    );
-  }
-
-
-
-
-
-
-
-  Widget buildSearchBar2(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 30),
-      height: 20,
-      width: 100,
-      color: Colors.amber,
       child: Row(
         children: [
-          Container(
-            width: 275,
-            height: 51,
-            decoration: BoxDecoration(
-              color: blackColor,
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: greyColor)
-
+          Expanded(
+            child: CustomSearchBar(
+              search: '',
             ),
-          )
+          ),
+          const SizedBox(
+            width: 12,
+          ),
+          const Icon(
+            Icons.favorite_outline,
+            size: 25,
+          ),
         ],
       ),
     );

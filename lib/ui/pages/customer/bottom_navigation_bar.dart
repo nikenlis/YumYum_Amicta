@@ -4,18 +4,22 @@ import 'package:amicta/ui/pages/customer/customer_merchant_page.dart';
 import 'package:amicta/ui/pages/customer/customer_order_page.dart';
 import 'package:amicta/ui/pages/customer/customer_profile_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class BottomNavBar extends StatefulWidget {
-  BottomNavBar({super.key});
+class NavigationController extends GetxController {
+  var currentPageIndex = 0.obs;
 
-  @override
-  State<BottomNavBar> createState() => _BottomNavigationBarState();
+  void changePage(int index) {
+    currentPageIndex.value = index;
+  }
 }
 
-class _BottomNavigationBarState extends State<BottomNavBar> {
-  int currentPageIndex = 0;
+class BottomNavBar extends StatelessWidget {
+  BottomNavBar({super.key});
 
-  //final controller =
+  final NavigationController navigationController =
+      Get.put(NavigationController());
+
   final List<Widget> pages = [
     const CustomerHomePage(),
     const CustomerMerchantPage(),
@@ -25,28 +29,33 @@ class _BottomNavigationBarState extends State<BottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: NavigationBar(
-          onDestinationSelected: (int index) {
-            setState(() {
-              currentPageIndex = index;
-            });
-          },
-          height: 80,
-          elevation: 0,
-          indicatorColor: lightGreyColor,
-          selectedIndex: currentPageIndex,
-          destinations: [
-            NavigationDestination(
-                icon: const Icon(Icons.home_outlined), label: 'Home', selectedIcon: Icon(Icons.home_outlined, color: purpleColor,),),
-            const NavigationDestination(
-                icon: Icon(Icons.shop_outlined), label: 'Merchant'),
-            const NavigationDestination(
-                icon: Icon(Icons.list_outlined), label: 'Order'),
-            const NavigationDestination(
-                icon: Icon(Icons.person_outline), label: 'Profile'),
-          ]),
-      body: pages[currentPageIndex],
-    );
+    return Obx(() => Scaffold(
+          bottomNavigationBar: NavigationBar(
+            onDestinationSelected: (int index) {
+              navigationController.changePage(index);
+            },
+            height: 80,
+            elevation: 0,
+            indicatorColor: lightGreyColor,
+            selectedIndex: navigationController.currentPageIndex.value,
+            destinations: [
+              NavigationDestination(
+                icon: const Icon(Icons.home_outlined),
+                label: 'Home',
+                selectedIcon: Icon(
+                  Icons.home_outlined,
+                  color: purpleColor,
+                ),
+              ),
+              const NavigationDestination(
+                  icon: Icon(Icons.shop_outlined), label: 'Merchant'),
+              const NavigationDestination(
+                  icon: Icon(Icons.list_outlined), label: 'Order'),
+              const NavigationDestination(
+                  icon: Icon(Icons.person_outline), label: 'Profile'),
+            ],
+          ),
+          body: pages[navigationController.currentPageIndex.value],
+        ));
   }
 }

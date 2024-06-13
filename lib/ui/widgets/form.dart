@@ -1,7 +1,16 @@
 import 'package:amicta/shared/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class CustomFormField extends StatefulWidget {
+class CustomFormFieldController extends GetxController {
+  var isObscure = true.obs;
+
+  void toggleVisibility() {
+    isObscure.value = !isObscure.value;
+  }
+}
+
+class CustomFormField extends StatelessWidget {
   final String title;
   final bool obsecureText;
   final TextEditingController? controller;
@@ -9,7 +18,7 @@ class CustomFormField extends StatefulWidget {
   final bool iconVisibility;
   final Function(String)? onFieldSubmitted;
 
-  const CustomFormField({
+  CustomFormField({
     super.key,
     required this.title,
     this.obsecureText = false,
@@ -19,57 +28,53 @@ class CustomFormField extends StatefulWidget {
     this.onFieldSubmitted,
   });
 
-  @override
-  State<CustomFormField> createState() => _CustomFormFieldState();
-}
-
-class _CustomFormFieldState extends State<CustomFormField> {
-  late bool _obsecureText;
-
-  @override
-  void initState() {
-    super.initState();
-    _obsecureText = widget.obsecureText;
-  }
+  final CustomFormFieldController _controller =
+      Get.put(CustomFormFieldController());
 
   @override
   Widget build(BuildContext context) {
+    _controller.isObscure.value = obsecureText;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (widget.isShowTitle)
+        if (isShowTitle)
           Text(
-            widget.title,
+            title,
             style: blackTextStyle.copyWith(
               fontWeight: medium,
             ),
           ),
-        if (widget.isShowTitle)
+        if (isShowTitle)
           const SizedBox(
             height: 8,
           ),
-        TextFormField(
-          //obscureText: widget.obsecureText,
-          obscureText:  _obsecureText,
-          controller: widget.controller,
-          decoration: InputDecoration(
-              hintText: !widget.isShowTitle ? widget.title : null,
+        Obx(
+          () => TextFormField(
+            obscureText: _controller.isObscure.value,
+            controller: controller,
+            decoration: InputDecoration(
+              hintText: !isShowTitle ? title : null,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
               ),
               contentPadding: const EdgeInsets.all(12),
-              suffixIcon: widget.iconVisibility
+              suffixIcon: iconVisibility
                   ? IconButton(
                       onPressed: () {
-                        setState((){
-                          _obsecureText = !_obsecureText;
-                        });
+                        _controller.toggleVisibility();
                       },
-                      icon: Icon(_obsecureText
-                          ? Icons.visibility_off
-                          : Icons.visibility, color: greyColor,))
-                  : null),
-          onFieldSubmitted: widget.onFieldSubmitted,
+                      icon: Icon(
+                        _controller.isObscure.value
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        color: greyColor,
+                      ),
+                    )
+                  : null,
+            ),
+            onFieldSubmitted: onFieldSubmitted,
+          ),
         ),
       ],
     );

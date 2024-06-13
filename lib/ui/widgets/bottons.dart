@@ -1,18 +1,32 @@
 import 'package:amicta/shared/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class ButtonExampleController extends GetxController {
+  var count = 0.obs;
+
+  void increment() {
+    count++;
+  }
+
+  void reset() {
+    count.value = 0;
+  }
+}
 
 class CustomFilledButton extends StatelessWidget {
   final String title;
   final double width;
   final double height;
   final VoidCallback? onPressed;
-  const CustomFilledButton(
-      {
-        required this.title,
-      this.width = double.infinity,
-      this.height = 50,
-      this.onPressed,
-      super.key});
+
+  const CustomFilledButton({
+    super.key,
+    required this.title,
+    this.width = double.infinity,
+    this.height = 50,
+    this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
