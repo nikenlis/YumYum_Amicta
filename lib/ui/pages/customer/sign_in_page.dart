@@ -11,8 +11,7 @@ class SignInPage extends StatelessWidget {
   final passwordController = TextEditingController(text: '');
 
   bool validate() {
-    if (emailController.text.isEmpty ||
-        passwordController.text.isEmpty) {
+    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
       return false;
     }
     return true;
@@ -28,8 +27,8 @@ class SignInPage extends StatelessWidget {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
+            children: [
+              Container(
                 width: 60,
                 height: 50,
                 margin: const EdgeInsets.only(
@@ -44,7 +43,9 @@ class SignInPage extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 5,),
+              const SizedBox(
+                width: 5,
+              ),
               Container(
                 width: 155,
                 height: 50,
@@ -60,8 +61,8 @@ class SignInPage extends StatelessWidget {
                   ),
                 ),
               ),
-                ],
-              ),
+            ],
+          ),
           Text(
             'Sign In to Your\nAccount',
             style: blackTextStyle.copyWith(
@@ -81,7 +82,6 @@ class SignInPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                
                 // NOTE: EMAIL INPUT
                 CustomFormField(
                   title: 'Email Address',
@@ -93,9 +93,9 @@ class SignInPage extends StatelessWidget {
                 // NOTE: PASSWORD INPUT
                 CustomFormField(
                   title: 'Password',
-                  obsecureText: true,
-                  iconVisibility: true,
                   controller: passwordController,
+                  iconVisibility: true,
+                  isShowTitle: true,
                 ),
                 const SizedBox(
                   height: 8,
@@ -108,11 +108,10 @@ class SignInPage extends StatelessWidget {
                   onPressed: () {
                     if (validate()) {
                       Navigator.pushNamedAndRemoveUntil(
-                        context, '/customer-bottom-navbar', (route) => false);
+                          context, '/customer-bottom-navbar', (route) => false);
                     } else {
                       showCustomSnackbar(context, 'Semua Field Harus diIsi');
                     }
-                    
                   },
                 ),
               ],

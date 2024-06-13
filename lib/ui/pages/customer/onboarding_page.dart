@@ -1,177 +1,167 @@
-import 'package:amicta/shared/theme.dart';
 import 'package:amicta/ui/widgets/bottons.dart';
-import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+class OnboardingController extends GetxController {
+  var currentIndex = 0.obs;
 
-class OnboardingPage extends StatefulWidget {
-  const OnboardingPage({super.key});
+  void updateIndex(int index) {
+    currentIndex.value = index;
+  }
 
-  @override
-  State<OnboardingPage> createState() => _OnboardingPageState();
+  void nextPage() {
+    if (currentIndex.value < 2) {
+      currentIndex.value++;
+    }
+  }
 }
 
-class _OnboardingPageState extends State<OnboardingPage> {
-  int currentIndex = 0;
-  CarouselController controller = CarouselController();
+class OnboardingPage extends StatelessWidget {
+  final OnboardingController controller = Get.put(OnboardingController());
 
-  List<String> titles = [
-    'All your favorites',
-    'Free delivery offers',
-    'Choose your food',
+  final List<String> titles = [
+    'Welcome to Our App!',
+    'Discover New Features',
+    'Start Your Journey'
   ];
 
-  List<String> subtitles = [
-    'Order from the best local restaurants with easy, on-demand delivery.',
-    'Free delivery for new customers\nvia Apple Pay and others payment methods.',
-    'Easily find your type of food craving and you’ll get delivery in wide range.',
+  final List<String> subtitles = [
+    'Explore and enjoy the features we offer.',
+    'Get to know the latest updates and tools.',
+    'Join us now and start using our services.'
   ];
+
+  OnboardingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CarouselSlider(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: CarouselSlider(
               items: [
                 Image.asset(
                   'assets/img_onboarding1.png',
                   height: 331,
+                  fit: BoxFit.cover,
                 ),
                 Image.asset(
                   'assets/img_onboarding2.png',
                   height: 331,
+                  fit: BoxFit.cover,
                 ),
                 Image.asset(
                   'assets/img_onboarding3.png',
                   height: 331,
+                  fit: BoxFit.cover,
                 ),
               ],
               options: CarouselOptions(
                 height: 331,
-                viewportFraction: 1, //biar satu gambar satu page
+                viewportFraction: 1.0,
                 enableInfiniteScroll: false,
                 onPageChanged: (index, reason) {
-                  setState(() {
-                    currentIndex = index;
-                  });
+                  controller.updateIndex(index);
                 },
               ),
-              carouselController: controller,
             ),
-            const SizedBox(
-              height: 80,
+          ),
+          const SizedBox(height: 20),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 24),
+            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 24),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 10,
+                  offset: Offset(0, 5),
+                ),
+              ],
             ),
-            Container(
-              margin: const EdgeInsets.symmetric(
-                horizontal: 24,
-              ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 22,
-                vertical: 24,
-              ),
-              decoration: BoxDecoration(
-                color: whiteColor,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Column(
-                children: [
-                  Text(
-                    titles[currentIndex],
-                    style: blackTextStyle.copyWith(
-                      fontSize: 20,
-                      fontWeight: semiBold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(
-                    height: 26,
-                  ),
-                  Text(
-                    subtitles[currentIndex],
-                    style: greyTextStyle.copyWith(
-                      fontSize: 16,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(
-                    height: currentIndex == 2 ? 38 : 50,
-                  ),
-                  currentIndex == 2
-                      ? Column(
-                          children: [
-                            CustomFilledButton(
-                              title: 'Sign-in',
-                              onPressed: () {
-                                Navigator.pushNamedAndRemoveUntil(
-                                    context, '/customer-sign-in', (route) => false);
-                              },
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                          ],
-                        )
-                      : Row(
-                          children: [
-                            Container(
-                              width: 12,
-                              height: 12,
-                              margin: const EdgeInsets.only(
-                                right: 10,
-                              ),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: currentIndex == 0
-                                    ? purpleColor
-                                    : greyColor,
-                              ),
-                            ),
-                            Container(
-                              width: 12,
-                              height: 12,
-                              margin: const EdgeInsets.only(
-                                right: 10,
-                              ),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: currentIndex == 1
-                                    ? purpleColor
-                                    : greyColor,
-                              ),
-                            ),
-                            Container(
-                              width: 12,
-                              height: 12,
-                              margin: const EdgeInsets.only(
-                                right: 10,
-                              ),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: currentIndex == 2
-                                    ? purpleColor
-                                    : greyColor,
-                              ),
-                            ),
-                            const Spacer(),
-                            CustomFilledButton(
-                              title: 'Continue',
-                              width: 150,
-                              onPressed: () {
-                                controller.nextPage();
-                              },
-                            ),
-                          ],
+            child: Column(
+              children: [
+                Obx(() => Text(
+                      titles[controller.currentIndex.value],
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      textAlign: TextAlign.center,
+                    )),
+                const SizedBox(height: 26),
+                Obx(() => Text(
+                      subtitles[controller.currentIndex.value],
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 16,
+                      ),
+                      textAlign: TextAlign.center,
+                    )),
+                const SizedBox(height: 40),
+                Obx(() {
+                  if (controller.currentIndex.value == 2) {
+                    return Column(
+                      children: [
+                        CustomFilledButton(
+                          title: 'Sign-in',
+                          onPressed: () {
+                            Get.offNamed('/customer-sign-in');
+                          },
                         ),
-                ],
-              ),
+                        const SizedBox(height: 20),
+                      ],
+                    );
+                  } else {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: List.generate(3, (index) {
+                            return IndicatorDot(
+                              isActive: controller.currentIndex.value == index,
+                            );
+                          }),
+                        ),
+                        CustomFilledButton(
+                          title: 'Continue',
+                          width: 150,
+                          onPressed: controller.nextPage,
+                        ),
+                      ],
+                    );
+                  }
+                }),
+              ],
             ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 20),
+        ],
+      ),
+    );
+  }
+}
+
+class IndicatorDot extends StatelessWidget {
+  final bool isActive;
+
+  const IndicatorDot({super.key, required this.isActive});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 12,
+      height: 12,
+      margin: const EdgeInsets.only(right: 10),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: isActive ? Colors.purple : Colors.grey,
       ),
     );
   }

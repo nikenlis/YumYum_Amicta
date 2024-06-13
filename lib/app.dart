@@ -5,13 +5,14 @@ import 'package:amicta/ui/pages/customer/onboarding_page.dart';
 import 'package:amicta/ui/pages/customer/sign_in_page.dart';
 import 'package:amicta/ui/pages/splash_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: lightBackgroundColor,
@@ -28,13 +29,14 @@ class App extends StatelessWidget {
           ),
         ),
       ),
-      routes: {
-        '/': (context) => const SplashPage(),
-        '/onboarding': (context) => const OnboardingPage(),
-        '/customer-sign-in': (context) => SignInPage(),
-        '/customer-bottom-navbar': (context) => BottomNavBar(),
-        '/customer-home': (context) => const CustomerHomePage()
-      },
+      initialRoute: '/',
+      getPages: [
+        GetPage(name: '/', page: () => const SplashPage()),
+        GetPage(name: '/onboarding', page: () => OnboardingPage()),
+        GetPage(name: '/customer-sign-in', page: () => SignInPage()),
+        GetPage(name: '/customer-bottom-navbar', page: () => BottomNavBar()),
+        GetPage(name: '/customer-home', page: () => const CustomerHomePage()),
+      ],
     );
   }
 }
